@@ -111,7 +111,7 @@ export default {
                 self.contents[index].ratings_avg_rating = response.data
 
             }).catch(function (error) {
-                console.log(error);
+                alert(error);
             });
         }
         

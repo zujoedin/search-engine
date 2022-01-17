@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+
 import Button from '../../components/Button.vue'
 
 export default {
@@ -26,7 +26,6 @@ export default {
         }
     },
     mounted(){
-        // this.getTopics()
     },
     watch:{
         search(value){

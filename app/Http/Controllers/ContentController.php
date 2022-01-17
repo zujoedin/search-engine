@@ -30,12 +30,13 @@ class ContentController extends Controller
         //We could have also created a subquery or a select raw, but the best and most secured way is using laravel eloquent "withAvg"
         $data = Content::withAvg('ratings','rating')->with('actors')->with('user_rating')->with('genre')->where('type_id',$type_id)->orderBy('ratings_avg_rating','desc')->get();
 
-        //Return data to front end
+        //Return content(movie/show) with rating, avg_rating, actors, user_rating, genre
         return $data;
     }
 
     public function rate(Request $request)
-    {                
+    {      
+        // No need for transaction here since we have only one update and there cant be no table locking          
         DB::beginTransaction();
         try {
 
@@ -46,13 +47,25 @@ class ContentController extends Controller
                 ['rating' => $request->rating]
             );
 
+            // get new rating for the content
             $data = ContentRating::where('content_id',$request->id)->avg('rating');
 
+            //commit transaction
             DB::commit();
+
+            // return rating
             return $data;
+
         } catch (\Exception $e) {
+
+            // in case the query fails rollback
             DB::rollback();
-            return $e;
+
+            // return error responce
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e
+            ], 422);
         }
         
     }

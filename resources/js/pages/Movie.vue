@@ -52,15 +52,16 @@ export default {
                 console.log(error);
             });
         },
+        setSearch(value){
+            if(value.lenght<2){
+                this.contents = this.initialisedContents
+            }else if(value.lenght>2){
+                searchContent('movie',value)
+                this.contents = this.searchContents
+            }
+        },
     },
-    setSearch(value){
-        if(value.lenght<2){
-            this.contents = this.initialisedContents
-        }else if(value.lenght>2){
-            searchContent('movie',value)
-            this.contents = this.searchContents
-        }
-    },
+    
     
 }
 
