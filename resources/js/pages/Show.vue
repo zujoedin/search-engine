@@ -5,17 +5,18 @@
             <Search @onSearch='setSearch($event)'/>
         </div>    
         <div class="row">
-            <div v-if="loading" v-cloak class='text-center'>
+            <div v-if='loading' v-cloak class='text-center'>
                 <div class="fa-3x">
                     <i class="fas fa-circle-notch fa-spin"></i>
                 </div>  
             </div>
-            <div v-if='contents.length>0 && contents'>
+            <div v-if='contents.length>0'>
                 <ContentList :contents='contents'/>
             </div>            
             <div v-else v-cloak>
                 <h4 class='text-center'>No contents found!</h4>
             </div>
+            <button class='btn btn-primary mt-2 btn-block' v-if='contents.length >= pagination' @click="loadMore()">Load More...</button>
         </div> 
     </div>
 </template>
@@ -34,13 +35,17 @@ export default {
         return {
             contents:'',
             searchContents:'',
+            loadMoreInit:true,
+            loadMoreSearch:true,
+            pagination:5,
             initialisedContents:'',
+            search:'',
             timer:0,
-            loading:false
+            loading:false,
         }
     },    
     mounted(){
-        this.initializeContent('show')
+        this.initializeContent('movie')
     },
     methods: {
         searchContent(type,search){
@@ -48,10 +53,13 @@ export default {
             self.loading = true
             axios.post('/api/search-content',{
                 search:search,
-                type:type
+                type:type,
+                pagination:self.pagination
             }).then(function (response) {
                 self.contents = response.data                
                 self.loading = false
+                self.loadMoreSearch = true
+                self.loadMoreInit = false
             }).catch(function (error) {
                 console.log(error);
             });
@@ -59,31 +67,43 @@ export default {
         initializeContent(type){
             let self = this
             axios.post('/api/initialize-content',{
-                type:type
+                type:type,
+                pagination:self.pagination
             }).then(function (response) {
-                self.contents = response.data
+                console.log(response.data)
+                self.contents = response.data.data
+                self.loadMoreSearch = false
+                self.loadMoreInit = true
             }).catch(function (error) {
                 console.log(error);
             });
         },
         setSearch(value){            
-           
-            if(value.length==0){                
-                this.initializeContent('show')
+            this.search = value
+            if(this.search.length==0){                
+                this.initializeContent('movie')
                 // this.contents = this.initialisedContents
-            }else if(value.length>2){
+            }else if(this.search.length>2){
                 // timer implemented because we dont want the user to overload the search while typing
                 if (this.timer) {
                     clearTimeout(this.timer);
                     this.timer = null;
                 }
                 this.timer = setTimeout(() => {
-                    this.searchContent('show',value)
+                    this.searchContent('movie',this.search)
                 }, 800);
                 
                 // this.contents = this.searchContents
             }
         },
+        loadMore(){
+            this.pagination = this.pagination + 5
+            if(this.loadMoreInit){
+                this.initializeContent('movie')
+            }else{
+                this.searchContent(type,this.search)
+            }
+        }
     },
     
     

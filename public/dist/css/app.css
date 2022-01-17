@@ -13396,6 +13396,10 @@ p[data-v-3f7a3d03]{
     font-style: italic;
     font-size:12px
 }
+.btn-block[data-v-3f7a3d03] {
+    display: block;
+    width: 100%;
+}
 
 
 

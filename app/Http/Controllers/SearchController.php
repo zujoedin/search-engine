@@ -30,8 +30,9 @@ class SearchController extends Controller
         $add_search_phrase = false;
         $search_sign = '';
         $number = '';
-        $search_stars =false;
-        $search_year =false;
+        $search_stars = false;
+        $search_year = false;
+        $search_how_old = false;
       
         $search_phrase = [];
         // define phrases user can input
@@ -41,9 +42,10 @@ class SearchController extends Controller
             'at_least_stars' => ">=",
             'before' => "<",
             'after' => ">",
-            'older_than_years' => ">",
-            'younger_than_years' => "<",  
-            'younger_than' => "<",              
+            'older_than_years' => "<",
+            'younger_than_years' => ">",  
+            'younger_than' => ">",
+            'older_than' => "<",           
             ];
         
      
@@ -61,7 +63,9 @@ class SearchController extends Controller
                 if($search_phrase == $key){                    
                     if (str_contains($search_phrase, 'stars')) { 
                         $search_stars = true;
-                    }else{
+                    }else if(str_contains($search_phrase, 'older_than_years') || str_contains($search_phrase, 'younger_than_years')){
+                        $search_how_old = true;
+                    }else {
                         $search_year = true;
                     }
                     $add_search_phrase = true;
@@ -97,7 +101,8 @@ class SearchController extends Controller
         //include foreach inside the orWhere clause
         foreach($searches as $search){
             // in case space is added after phrase
-                $query->where(function($query) use ($search,$add_search_phrase,$search_sign,$number,$search_stars,$search_year){                    
+            if($search!=''){
+                $query->where(function($query) use ($search){                    
                     $query
                         ->orWhere('contents.description', 'LIKE', '%'.$search.'%')
                         ->orWhere('contents.title', 'LIKE', '%'.$search.'%')
@@ -110,16 +115,25 @@ class SearchController extends Controller
                 if($add_search_phrase){                        
                     if($search_year){
                         $query->whereYear('contents.release_date', "$search_sign", $number);
-                    } 
-                    if($search_stars){
+                    }else if($search_stars){
                         $query->where('rating_total', "$search_sign", $number);
-                    } 
-                }  
+                    }else if($search_how_old){
+                        $current_year = date("Y");
+                        $number = $current_year-$number;
+                        $query->whereYear('contents.release_date', "$search_sign", $number);
+                    }
+                } 
+            } 
         };
         
-        //get the results and group then beacause we dont want duplicates
-        $data = $query->groupBy('contents.id','contents.description','contents.cover_image','contents.title','contents.type_id','contents.release_date')->orderBy('ratings_avg_rating','desc')
-        ->get();
+        // edge case if user types in something not intended as a phrase such as "asdadasadsda"
+        if(!$searches || $add_search_phrase){
+            //get the results and group then beacause we dont want duplicates
+            $data = $query->groupBy('contents.id','contents.description','contents.cover_image','contents.title','contents.type_id','contents.release_date')->orderBy('ratings_avg_rating','desc')
+            ->get();
+        }else{
+            $data = [];
+        }
 
         //Return searched content(movie/show) with rating, avg_rating, actors, user_rating, genre
         return $data;

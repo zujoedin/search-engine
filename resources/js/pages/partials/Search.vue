@@ -7,7 +7,8 @@
                     v-model='search'
                     class='form-control m-1'
                     placeholder='Search for title, actor, description etc. For advance search use apostrophes i.e: "N stars". You can also combine i.e: hanks "N stars"'>
-                    <div class='search-legend'><small>Search phrases accepted: "N stars", "at most n stars","at least n stars","before n", "after n","older than n years","younger than n years"</small></div>
+                    <div class='search-legend'><small>Search phrases accepted: "N stars", "at most N stars","at least N stars","before Y", "after Y","older than N years","younger than N years","older than Y","younger than Y"</small>
+                    </div>
                 </div>
             </div>
         </div>

@@ -56,7 +56,7 @@
                     </div>
                 </div>                
             </card>        
-        </div>
+        </div>        
     </div>
 </template>
 
@@ -145,6 +145,10 @@ p{
 .msg{
     font-style: italic;
     font-size:12px
+}
+.btn-block {
+    display: block;
+    width: 100%;
 }
 
 </style>

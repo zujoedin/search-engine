@@ -25,6 +25,8 @@ class ContentController extends Controller
         //We can also send type_id from front-end, which is something i dont perfer
         //I this case we have pulled it from config file, not the most accurate way but just to show what can be done, this practice is valid but it has its downsides
         $type = $request->type;
+        $paginate = $request->pagination;
+        
         $type_id = Config::get('constants.constants.'.$type);
         
         //We could have also created a subquery or a select raw, but the best and most secured way is using laravel eloquent "withAvg"
@@ -34,8 +36,7 @@ class ContentController extends Controller
         ->with('genre')
         ->where('type_id',$type_id)
         ->orderBy('ratings_avg_rating','desc')
-        ->get();
-
+        ->paginate($paginate);
         //Return content(movie/show) with rating, avg_rating, actors, user_rating, genre
         return $data;
     }
