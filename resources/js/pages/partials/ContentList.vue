@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div  v-for='(content, index) in contents' :key="content.id">
+    <div>        
+        <div  v-for='(content, index) in contents' :key="index">
             <card class='mb-1' :title="content.title" :subtitle="content.genre.genre">                
                 <div class='row'>
                     <div class='col-3'>       
@@ -82,7 +82,6 @@ export default {
         user: 'auth/user'
     }),
     mounted(){ 
-        console.log(this.contents)
     },
     methods:{
         //we can also return 2 decimals from the backend, however this leaves more flexibility
@@ -147,8 +146,5 @@ p{
     font-style: italic;
     font-size:12px
 }
-
-
-
 
 </style>

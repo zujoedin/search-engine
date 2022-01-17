@@ -32,7 +32,7 @@ class Content extends Model
 
     public function genre()    {        
         
-        return $this->belongsTo(ContentGenre::class);
+        return $this->hasOne(ContentGenre::class,'id');
     }
    
  
