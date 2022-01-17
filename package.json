@@ -22,6 +22,7 @@
     "vform": "^2.1.1",
     "vue": "^2.6.14",
     "vue-awesome": "^4.5.0",
+    "vue-i18n": "^8.26.8",
     "vue-js-star-rating": "^1.1.5",
     "vue-meta": "^2.4.0",
     "vue-router": "^3.5.2",

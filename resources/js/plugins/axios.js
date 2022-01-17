@@ -2,7 +2,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import store from '~/store'
 import router from '~/router'
-// import i18n from '~/plugins/i18n'
+import i18n from '~/plugins/i18n'
 
 // Request interceptor
 axios.interceptors.request.use(request => {
@@ -16,7 +16,7 @@ axios.interceptors.request.use(request => {
     request.headers.common['Accept-Language'] = locale
   }
 
-  // request.headers['X-Socket-Id'] = Echo.socketId()
+  request.headers['X-Socket-Id'] = Echo.socketId()
 
   return request
 })
