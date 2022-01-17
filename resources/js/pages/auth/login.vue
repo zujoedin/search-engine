@@ -28,7 +28,6 @@
               <checkbox v-model="remember" name="remember">
                 Remember me
               </checkbox>
-
             </div>
           </div>
 
@@ -53,12 +52,7 @@ import Cookies from 'js-cookie'
 
 
 export default {
- 
-
   middleware: 'guest',
-
-
-
   data: () => ({
     form: new Form({
       email: '',
@@ -68,7 +62,7 @@ export default {
   }),
 
   methods: {
-    async login () {
+    async login() {
       // Submit the form.
       const { data } = await this.form.post('/api/login')
 

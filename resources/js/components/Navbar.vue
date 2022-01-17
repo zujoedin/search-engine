@@ -1,32 +1,24 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
-    <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
+    <router-link :to="{ name: user ? 'movies' : 'movies' }" class="navbar-brand">
         {{ appName }}
     </router-link>
     <div class="container-lg">
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <router-link :to="{ name: 'home' }" class="nav-link" active-class="active">
-                Home
+                <router-link :to="{ name: 'movies' }" class="nav-link" active-class="active">
+                Movies
                 </router-link>
             </li>
-            <li v-if="user" class="nav-item">
-                <router-link :to="{ name: 'myquestions' }" class="nav-link" active-class="active">
-                My Questions
+            <li class="nav-item">
+                <router-link :to="{ name: 'shows' }" class="nav-link" active-class="active">
+                TV Shows
                 </router-link>
             </li>
        
         </ul>
         <ul class="navbar-nav ms-auto">
-          <!-- Authenticated -->
-          <li v-if="user" class='nav-item'> 
-            <router-link :to="{ name: 'notifications' }" class="nav-link" active-class="active">
-                <span class="badge badge-pill badge-primary bg-primary" title='Number of notifications'>
-                    {{notifications}}
-                </span>
-            </router-link>
-          </li>
           <li v-if="user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark"
                href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
@@ -65,10 +57,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import axios from 'axios'
 
 export default {
-
     data() {
         return { 
             appName: window.config.appName,
@@ -76,43 +66,24 @@ export default {
         }
     },
     computed: mapGetters({
-    user: 'auth/user'
+        user: 'auth/user'
     }),
 
     methods: {
         async logout () {
             // Log out the user.
             await this.$store.dispatch('auth/logout')
-
             // Redirect to login.
             this.$router.push({ name: 'login' })
         },
-        getNotifications(){
-            let self = this
-            axios.post('/api/get-notifications').then(function (response) {
-                self.notifications = response.data         
-            }).catch(function (error) {
-                console.log(error);
-            });
-        }
-    },
-    mounted(){
-        let self = this
-        self.getNotifications();        
-        var getNotifications = function(){
-            self.getNotifications();
-            setTimeout(getNotifications, 15000);
-        };
-            setTimeout(getNotifications,15000);
-        }
+    }
 }
 </script>
 
 <style scoped>
-.profile-photo {
-  width: 2rem;
-  height: 2rem;
-  margin: -.375rem 0;
+
+.navbar{
+    background: #5BB7D6 !important
 }
 
 .container {
@@ -123,19 +94,25 @@ export default {
     color: #fff;
     margin: -10px 20px -10px 0px;
     height: 56px;
-    background: #f34541;
+    background: #5BB7D6;
     padding: 12px 20px;
+    transition: 0.3s;
+    border-right: 2px dashed #fff;
 }
 .navbar-brand:hover {
     color: #fff;
     margin: -10px 20px -10px 0px;
     height: 56px;
-    background: #f34541;
+    background: #fff;
     padding: 12px 20px;
-    cursor:default
+    cursor:default;
+    color:#5BB7D6;
 }
 .navbar-brand:visited,.navbar-brand:focused {
-    color: #fff;
-  
+    color: #fff;  
+}
+
+.router-link-exact-active.active{
+    color:#fff !important
 }
 </style>

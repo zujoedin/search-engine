@@ -38,11 +38,6 @@ export default {
           name: 'Password',
           route: 'settings.password'
         },
-        {
-          icon: 'cog',
-          name: 'Configuration',
-          route: 'settings.config'
-        }
       ]
     }
   }

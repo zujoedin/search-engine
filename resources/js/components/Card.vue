@@ -5,6 +5,7 @@
         <div v-if="subtitle" class="card-subtitle float-right mt-1">
             <div class='badge badge-primary bg-primary'>{{ subtitle }}</div>
         </div>
+  
     </div>
 
     <div class="card-body">
@@ -31,5 +32,13 @@ export default {
 }
 .card-header{
     font-weight: bold !important;
+}
+.bg-primary{
+    background-color:#5BB7D6 !important;
+    animation: pop 0.3s linear 1;
+}
+
+@keyframes pop{
+  50%  {transform: scale(1.2);}
 }
 </style>

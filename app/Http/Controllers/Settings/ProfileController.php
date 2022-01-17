@@ -26,22 +26,4 @@ class ProfileController extends Controller
         return response()->json($user);
     }
 
-    public function updateConfig(Request $request)
-    {
-        $user = $request->user();
-        
-        $config = Config::where('user_id', Auth::id())->first();
-        $config->number_of_questions = $request->number_of_questions;
-        $config->save();
-        dd($config);
-
-
-        return response()->json($config);
-    }
-
-    public function getConfig()
-    {        
-        $config = Config::where('user_id',Auth::id())->pluck('number_of_questions'); 
-        return $config;
-    }
 }

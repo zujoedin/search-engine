@@ -57,12 +57,6 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $config = new Config;
-        $config->user_id = $data->id;
-        $config->theme = 0;
-        $config->number_of_questions = 20;
-        $config->save();
-
 
         return $data;
     }

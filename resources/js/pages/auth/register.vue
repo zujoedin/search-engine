@@ -37,9 +37,6 @@
             <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control" type="password" name="password_confirmation">
             <has-error :form="form" field="password_confirmation" />
             <p class="error" v-if='!password_has_width'>Password is not longer than 6 characters</p>
-            <p class="error" v-if='!password_has_uppercase'>Password doesn't have a capital letter</p>
-            <p class="error" v-if='!password_has_lowercase'>Password doesn't have a lowercase letter</p>
-            <p class="error" v-if='!password_has_number'>Password doesn't have a number</p>
             </div>
           </div>
 
@@ -77,22 +74,21 @@ export default {
     }),
     mustVerifyEmail: false,
     password_has_width: true,
-    password_has_number: true,
-    password_has_lowercase: true,
-    password_has_uppercase: true,    
   }),
 
   methods: {
 
-    checkPassword: function () {
-         
-        this.password_has_width = /.{6,}/.test(this.form.password)
-        this.password_has_number    = /\d/.test(this.form.password)
-        this.password_has_lowercase = /[a-z]/.test(this.form.password)
-        this.password_has_uppercase = /[A-Z]/.test(this.form.password)    
-        if(this.password_has_number && this.password_has_lowercase & this.password_has_uppercase & this.password_has_width){
-            this.register()
-        }
+    _checkPassword: function() {
+      this.password_has_width=/.{6,}/.test(this.form.password)
+      if (this.password_has_width) {
+        this.register()
+      }
+    },
+    get checkPassword() {
+      return this._checkPassword
+    },
+    set checkPassword(value) {
+      this._checkPassword = value
     },
 
     async register () {
@@ -125,7 +121,4 @@ export default {
     padding:0 0 5px 0;
     color:#d91148
 }
-
 </style>
-
-
