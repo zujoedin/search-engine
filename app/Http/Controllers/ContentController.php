@@ -28,7 +28,13 @@ class ContentController extends Controller
         $type_id = Config::get('constants.constants.'.$type);
         
         //We could have also created a subquery or a select raw, but the best and most secured way is using laravel eloquent "withAvg"
-        $data = Content::withAvg('ratings','rating')->with('actors')->with('user_rating')->with('genre')->where('type_id',$type_id)->orderBy('ratings_avg_rating','desc')->get();
+        $data = Content::withAvg('ratings','rating')
+        ->with('actors')
+        ->with('user_rating')
+        ->with('genre')
+        ->where('type_id',$type_id)
+        ->orderBy('ratings_avg_rating','desc')
+        ->get();
 
         //Return content(movie/show) with rating, avg_rating, actors, user_rating, genre
         return $data;

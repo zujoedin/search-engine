@@ -6,7 +6,8 @@
                     <input  
                     v-model='search'
                     class='form-control m-1'
-                    placeholder='Search for title, actor, date etc. For advance search use apostrophes i.e: "Older than 2015". You can also combine i.e: tom hanks "Older than 2015"'>
+                    placeholder='Search for title, actor, description etc. For advance search use apostrophes i.e: "N stars". You can also combine i.e: hanks "N stars"'>
+                    <div class='search-legend'><small>Search phrases accepted: "N stars", "at most n stars","at least n stars","before n", "after n","older than n years","younger than n years"</small></div>
                 </div>
             </div>
         </div>
@@ -40,5 +41,10 @@ export default {
 <style computed>
 .form-control{
     appearance:auto
+}
+.search-legend{
+    padding: 0px 10px;
+    color: #84757d;
+    font-style: italic;
 }
 </style>

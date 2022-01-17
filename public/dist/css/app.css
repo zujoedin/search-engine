@@ -13372,20 +13372,6 @@ svg:not(:root).svg-inline--fa {
 }
 
 
-.filters{
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:4px
-}
-.btn-block {
-    display: block;
-    width: 100%;
-}
-.form-control{
-    background:#fff
-}
-
-
 .responsive-image[data-v-3f7a3d03] {
   max-width: 100%;
   height: auto;
@@ -13418,6 +13404,11 @@ p[data-v-3f7a3d03]{
        -moz-appearance:auto;
             appearance:auto
 }
+.search-legend{
+    padding: 0px 10px;
+    color: #84757d;
+    font-style: italic;
+}
 
 
 .filters{
@@ -13447,6 +13438,7 @@ p[data-v-3f7a3d03]{
 .form-control{
     background:#fff
 }
+
 
 
 .error[data-v-425558de]{

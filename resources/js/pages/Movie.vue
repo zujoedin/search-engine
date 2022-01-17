@@ -5,15 +5,15 @@
             <Search @onSearch='setSearch($event)'/>
         </div>    
         <div class="row">
-            <div v-if="loading" v-cloak class='text-center'>
+            <div v-if='loading' v-cloak class='text-center'>
                 <div class="fa-3x">
                     <i class="fas fa-circle-notch fa-spin"></i>
                 </div>  
             </div>
             <div v-if='contents.length>0'>
-                <ContentList  :contents='contents'/>
+                <ContentList :contents='contents'/>
             </div>            
-            <div v-else>
+            <div v-else v-cloak>
                 <h4 class='text-center'>No contents found!</h4>
             </div>
         </div> 

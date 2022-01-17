@@ -27,10 +27,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', [LoginController::class, 'logout']);
-
     Route::get('user', [UserController::class, 'current']);
     Route::patch('settings/profile', [ProfileController::class, 'updateProfile']);
     Route::patch('settings/password', [PasswordController::class, 'update']);
+
+    Route::post('/rate-content', [ContentController::class, 'rate']);
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
@@ -43,11 +44,10 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('email/verify/{user}', [VerificationController::class, 'verify'])->name('verification.verify');    
 
     Route::post('oauth/{driver}', [OAuthController::class, 'redirect']);
-    Route::get('oauth/{driver}/callback', [OAuthController::class, 'handleCallback'])->name('oauth.callback');
-    
+    Route::get('oauth/{driver}/callback', [OAuthController::class, 'handleCallback'])->name('oauth.callback');   
     
 });
 
-Route::post('/search-content', [SearchController::class, 'search']);
-Route::post('/initialize-content', [ContentController::class, 'show']);
-Route::post('/rate-content', [ContentController::class, 'rate']);
+    Route::post('/search-content', [SearchController::class, 'search']);
+    Route::post('/initialize-content', [ContentController::class, 'show']);
+

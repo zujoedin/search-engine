@@ -1,10 +1,21 @@
 <template>
     <div class="col-lg-10 m-auto">
-          <div class="filters mb-4">
+   
+        <div class="filters mb-4">
             <Search @onSearch='setSearch($event)'/>
         </div>    
         <div class="row">
-            <ContentList :contents='contents'/>
+            <div v-if="loading" v-cloak class='text-center'>
+                <div class="fa-3x">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                </div>  
+            </div>
+            <div v-if='contents.length>0 && contents'>
+                <ContentList :contents='contents'/>
+            </div>            
+            <div v-else v-cloak>
+                <h4 class='text-center'>No contents found!</h4>
+            </div>
         </div> 
     </div>
 </template>
@@ -23,20 +34,24 @@ export default {
         return {
             contents:'',
             searchContents:'',
-            initialisedContents:''
+            initialisedContents:'',
+            timer:0,
+            loading:false
         }
     },    
     mounted(){
-        this.initializeContent('movie')
+        this.initializeContent('show')
     },
     methods: {
         searchContent(type,search){
             let self = this
+            self.loading = true
             axios.post('/api/search-content',{
                 search:search,
                 type:type
             }).then(function (response) {
-                self.contents = response.data
+                self.contents = response.data                
+                self.loading = false
             }).catch(function (error) {
                 console.log(error);
             });
@@ -51,15 +66,26 @@ export default {
                 console.log(error);
             });
         },
+        setSearch(value){            
+           
+            if(value.length==0){                
+                this.initializeContent('show')
+                // this.contents = this.initialisedContents
+            }else if(value.length>2){
+                // timer implemented because we dont want the user to overload the search while typing
+                if (this.timer) {
+                    clearTimeout(this.timer);
+                    this.timer = null;
+                }
+                this.timer = setTimeout(() => {
+                    this.searchContent('show',value)
+                }, 800);
+                
+                // this.contents = this.searchContents
+            }
+        },
     },
-    setSearch(value){
-        if(value.lenght<2){
-            this.contents = this.initialisedContents
-        }else if(value.lenght>2){
-            searchContent('movie',value)
-            this.contents = this.searchContents
-        }
-    },
+    
     
 }
 
@@ -77,4 +103,5 @@ export default {
 .form-control{
     background:#fff
 }
+
 </style>
