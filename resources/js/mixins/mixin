@@ -1,0 +1,42 @@
+import Vue from 'vue'
+import axios from 'axios'
+
+export default {
+    data() {
+        return {
+            
+        }
+    },
+    methods: {
+        searchContent(type,search){
+            let self = this
+            self.loading = true
+            axios.post('/api/search-content',{
+                search:search,
+                type:type,
+                pagination:self.pagination
+            }).then(function (response) {
+                self.contents = response.data                
+                self.loading = false
+                self.loadMoreSearch = true
+                self.loadMoreInit = false
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        initializeContent(type){
+            let self = this
+            axios.post('/api/initialize-content',{
+                type:type,
+                pagination:self.pagination
+            }).then(function (response) {
+                self.contents = response.data.data
+                self.loadMoreSearch = false
+                self.loadMoreInit = true
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        
+    }
+}

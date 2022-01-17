@@ -25,12 +25,14 @@
 import axios from 'axios'
 import ContentList from '~/pages/partials/ContentList'
 import Search from '~/pages/partials/Search'
+import Mixin from '../mixins/mixin'
 
 export default {
     components: {
         Search,
         ContentList
     },
+    mixins: [Mixin],
     data(){
         return {
             contents:'',
@@ -47,42 +49,11 @@ export default {
     mounted(){
         this.initializeContent('movie')
     },
-    methods: {
-        searchContent(type,search){
-            let self = this
-            self.loading = true
-            axios.post('/api/search-content',{
-                search:search,
-                type:type,
-                pagination:self.pagination
-            }).then(function (response) {
-                self.contents = response.data                
-                self.loading = false
-                self.loadMoreSearch = true
-                self.loadMoreInit = false
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        initializeContent(type){
-            let self = this
-            axios.post('/api/initialize-content',{
-                type:type,
-                pagination:self.pagination
-            }).then(function (response) {
-                console.log(response.data)
-                self.contents = response.data.data
-                self.loadMoreSearch = false
-                self.loadMoreInit = true
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
+    methods: {        
         setSearch(value){            
             this.search = value
             if(this.search.length==0){                
                 this.initializeContent('movie')
-                // this.contents = this.initialisedContents
             }else if(this.search.length>2){
                 // timer implemented because we dont want the user to overload the search while typing
                 if (this.timer) {
@@ -92,8 +63,6 @@ export default {
                 this.timer = setTimeout(() => {
                     this.searchContent('movie',this.search)
                 }, 800);
-                
-                // this.contents = this.searchContents
             }
         },
         loadMore(){

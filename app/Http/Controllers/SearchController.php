@@ -38,14 +38,14 @@ class SearchController extends Controller
         // define phrases user can input
         $search_phrase_database = [                
             'stars' => "=",
-            'at_most_stars' => "<=",
-            'at_least_stars' => ">=",
+            'atmoststars' => "<=",
+            'atleaststars' => ">=",
             'before' => "<",
             'after' => ">",
-            'older_than_years' => "<",
-            'younger_than_years' => ">",  
-            'younger_than' => ">",
-            'older_than' => "<",           
+            'olderthanyears' => "<",
+            'youngerthanyears' => ">",  
+            'youngerthan' => ">",
+            'olderthan' => "<",           
             ];
         
      
@@ -56,12 +56,12 @@ class SearchController extends Controller
         if(!empty($search_phrase)){
             $search_phrase = $search_phrase[1];
             $number = preg_replace('/[^0-9]/', '', $search_phrase);
-            $search_phrase = str_replace(" ".$number, "", $search_phrase);
-            $search_phrase = str_replace(" ", "_", $search_phrase);
+            $search_phrase = str_replace($number, "", $search_phrase);
+            $search_phrase = str_replace(" ", "", $search_phrase);
                         
             foreach(array_keys($search_phrase_database) as $key){        
                 if($search_phrase == $key){                    
-                    if (str_contains($search_phrase, 'stars')) { 
+                    if (str_contains($search_phrase, 'stars')) {
                         $search_stars = true;
                     }else if(str_contains($search_phrase, 'older_than_years') || str_contains($search_phrase, 'younger_than_years')){
                         $search_how_old = true;
@@ -79,7 +79,7 @@ class SearchController extends Controller
         //search query can be "tom hanks guard", however the actor table has two columns, first_name and last_name, and guard is definitly not the name of the actor so this is why we need to explode the search and find the results by pieces.        
         $searches = explode(" ", $search);
         
-        
+       
         // subquery
         $avg_rating_sub_query = ContentRating::selectRaw("AVG(rating) as rating_total,content_id")->groupBy('content_id');
         
@@ -111,23 +111,22 @@ class SearchController extends Controller
                         ->orWhere('actors.last_name', 'LIKE', '%'.$search.'%')
                         ->orWhere('actors.first_name', 'LIKE', '%'.$search.'%');
                 });
-
-                if($add_search_phrase){                        
-                    if($search_year){
-                        $query->whereYear('contents.release_date', "$search_sign", $number);
-                    }else if($search_stars){
-                        $query->where('rating_total', "$search_sign", $number);
-                    }else if($search_how_old){
-                        $current_year = date("Y");
-                        $number = $current_year-$number;
-                        $query->whereYear('contents.release_date', "$search_sign", $number);
-                    }
-                } 
-            } 
+            }
+            if($add_search_phrase){
+                if($search_year){
+                    $query->whereYear('contents.release_date', "$search_sign", $number);
+                }else if($search_stars){
+                    $query->where('rating_total', "$search_sign", $number);
+                }else if($search_how_old){
+                    $current_year = date("Y");
+                    $number = $current_year-$number;
+                    $query->whereYear('contents.release_date', "$search_sign", $number);
+                }
+            }
         };
         
         // edge case if user types in something not intended as a phrase such as "asdadasadsda"
-        if(!$searches || $add_search_phrase){
+        if($searches || $add_search_phrase){
             //get the results and group then beacause we dont want duplicates
             $data = $query->groupBy('contents.id','contents.description','contents.cover_image','contents.title','contents.type_id','contents.release_date')->orderBy('ratings_avg_rating','desc')
             ->get();
