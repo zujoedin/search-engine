@@ -22,7 +22,7 @@
                             <p>{{content.release_date}}</p>
                         </div>
                         <div class='mb-4'>
-                            <h5 class='title'>Rating</h5>
+                            <h5 class='title'>Your Rating</h5>
                             <div v-if='user'>        
                                 <div v-if='content.user_rating'>
                                     <star-rating 
@@ -51,7 +51,7 @@
                                 </div>                                
                             </div>
                             <div v-else class='msg'>You must be logged in to vote!</div>
-                            <div class='msg mt-2'>Average Rating: {{twoDecimals(content.ratings_avg_rating)}}</div>
+                            <div class='msg mt-2'>Average Rating: <strong>{{twoDecimals(content.ratings_avg_rating)}}</strong></div>
                             
                         </div>
                     </div>
