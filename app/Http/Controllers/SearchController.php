@@ -108,12 +108,10 @@ class SearchController extends Controller
             if($search!=''){
                 $query->where(function($query) use ($search){                    
                     $query
-                        ->orWhere('contents.description', 'LIKE', '%'.$search.'%')
-                        ->orWhere('contents.title', 'LIKE', '%'.$search.'%')
-                        //In the taks the result should work with textual attributes, not dates, however I have added the year as well              
-                        // ->orWhereYear('contents.release_date', '=', $search)
-                        ->orWhere('actors.last_name', 'LIKE', "'%'.$search.'%'")
-                        ->orWhere('actors.first_name', 'LIKE', "'%'.$search.'%'");
+                        ->orWhere('contents.description', 'ILIKE', '%'.$search.'%')
+                        ->orWhere('contents.title', 'ILIKE', '%'.$search.'%')
+                        ->orWhere('actors.last_name', 'ILIKE', "'%'.$search.'%'")
+                        ->orWhere('actors.first_name', 'ILIKE', "'%'.$search.'%'");
                 });
             }
             if($add_search_phrase){
