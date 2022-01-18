@@ -14,6 +14,14 @@ class Content extends Model
     protected $casts = [
         'release_date'  => 'date:d/m/Y',
     ];
+    protected $fillable = [
+        'type_id',
+        'genre_id',
+        'title',
+        'cover_image',
+        'description',
+        'release_date',
+    ];
 
     public function ratings()
     {

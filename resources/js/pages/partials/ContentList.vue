@@ -48,10 +48,11 @@
                                     :rounded-corners="true" 
                                     :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]">
                                     </star-rating>
-                                </div>
-                                <div class='msg mt-2'>Average Rating: {{twoDecimals(content.ratings_avg_rating)}}</div>
+                                </div>                                
                             </div>
                             <div v-else class='msg'>You must be logged in to vote!</div>
+                            <div class='msg mt-2'>Average Rating: {{twoDecimals(content.ratings_avg_rating)}}</div>
+                            
                         </div>
                     </div>
                 </div>                

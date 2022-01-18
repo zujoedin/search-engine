@@ -54,7 +54,6 @@ export default {
             this.search = value
             if(this.search.length==0){                
                 this.initializeContent('show')
-                // this.contents = this.initialisedContents
             }else if(this.search.length>2){
                 // timer implemented because we dont want the user to overload the search while typing
                 if (this.timer) {
@@ -64,8 +63,6 @@ export default {
                 this.timer = setTimeout(() => {
                     this.searchContent('show',this.search)
                 }, 800);
-                
-                // this.contents = this.searchContents
             }
         },
         loadMore(){

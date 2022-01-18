@@ -58,12 +58,12 @@ class SearchController extends Controller
             $number = preg_replace('/[^0-9]/', '', $search_phrase);
             $search_phrase = str_replace($number, "", $search_phrase);
             $search_phrase = str_replace(" ", "", $search_phrase);
-                        
+            
             foreach(array_keys($search_phrase_database) as $key){        
                 if($search_phrase == $key){                    
                     if (str_contains($search_phrase, 'stars')) {
                         $search_stars = true;
-                    }else if(str_contains($search_phrase, 'older_than_years') || str_contains($search_phrase, 'younger_than_years')){
+                    }else if(str_contains($search_phrase, 'olderthanyears') || str_contains($search_phrase, 'youngerthanyears')){
                         $search_how_old = true;
                     }else {
                         $search_year = true;
