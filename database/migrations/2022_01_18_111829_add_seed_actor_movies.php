@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\ContentActor;
+use Illuminate\Support\Facades\DB;
 
 class AddSeedActorMovies extends Migration
 {
@@ -153,8 +154,10 @@ class AddSeedActorMovies extends Migration
         ];
 
         foreach ($actors as $actor) {
-            $newActor = ContentActor::create($actor);
-            $newActor->save();
+            DB::table('content_actor')->insert([
+                'content_id' => $actor['content_id'],
+                'actor_id' => $actor['actor_id']
+            ]);
         }
     }
 
