@@ -110,8 +110,8 @@ class SearchController extends Controller
                     $query
                         ->orWhere('contents.description', 'ILIKE', '%'.$search.'%')
                         ->orWhere('contents.title', 'ILIKE', '%'.$search.'%')
-                        ->orWhere('actors.last_name', 'ILIKE', "'%'.$search.'%'")
-                        ->orWhere('actors.first_name', 'ILIKE', "'%'.$search.'%'");
+                        ->orWhere('actors.last_name', 'ILIKE', '%'.$search.'%')
+                        ->orWhere('actors.first_name', 'ILIKE', '%'.$search.'%');
                 });
             }
             if($add_search_phrase){
