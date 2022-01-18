@@ -141,7 +141,7 @@ class AddSeed extends Migration
                     'release_date' => date('Y-m-d', strtotime( '+'.mt_rand(0,50).' years', strtotime('1970-05-12')))
                 ],
                 [
-                    'type_id' => 1,
+                    'type_id' => 2,
                     'genre_id' => rand(1, 7), 
                     'title' => "Chernobyl",   
                     'cover_image' => "chernobyl.jpg", 

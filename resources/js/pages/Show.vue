@@ -38,7 +38,6 @@ export default {
             contents:'',
             searchContents:'',
             loadMoreInit:true,
-            loadMoreSearch:true,
             pagination:5,
             initialisedContents:'',
             search:'',
@@ -50,7 +49,8 @@ export default {
         this.initializeContent('show')
     },
     methods: {        
-        setSearch(value){            
+        setSearch(value){ 
+            this.pagination = 5           
             this.search = value
             if(this.search.length==0){                
                 this.initializeContent('show')
@@ -70,7 +70,7 @@ export default {
             if(this.loadMoreInit){
                 this.initializeContent('show')
             }else{
-                this.searchContent(type,this.search)
+                this.searchContent('show',this.search)
             }
         }
     },

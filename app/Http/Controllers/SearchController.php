@@ -25,6 +25,10 @@ class SearchController extends Controller
         
         //get search value from request
         $search = $request->search;
+
+        
+        //pagination
+        $paginate = $request->pagination;
         
         //define are variables used for phrases like "at most 5 stars"
         $add_search_phrase = false;
@@ -129,7 +133,7 @@ class SearchController extends Controller
         if($searches || $add_search_phrase){
             //get the results and group then beacause we dont want duplicates
             $data = $query->groupBy('contents.id','contents.description','contents.cover_image','contents.title','contents.type_id','contents.release_date')->orderBy('ratings_avg_rating','desc')
-            ->get();
+            ->paginate($paginate);
         }else{
             $data = [];
         }

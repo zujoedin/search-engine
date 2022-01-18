@@ -16,9 +16,8 @@ export default {
                 type:type,
                 pagination:self.pagination
             }).then(function (response) {
-                self.contents = response.data                
+                self.contents = response.data.data               
                 self.loading = false
-                self.loadMoreSearch = true
                 self.loadMoreInit = false
             }).catch(function (error) {
                 console.log(error);
@@ -31,7 +30,7 @@ export default {
                 pagination:self.pagination
             }).then(function (response) {
                 self.contents = response.data.data
-                self.loadMoreSearch = false
+                self.loading = false
                 self.loadMoreInit = true
             }).catch(function (error) {
                 console.log(error);

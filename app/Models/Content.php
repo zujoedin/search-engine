@@ -40,7 +40,7 @@ class Content extends Model
 
     public function genre()    {        
         
-        return $this->hasOne(ContentGenre::class,'id');
+        return $this->hasMany(ContentGenre::class,'id');
     }
    
  
