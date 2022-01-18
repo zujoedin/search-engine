@@ -14,7 +14,7 @@
     "@fortawesome/vue-fontawesome": "^2.0.2",
     "@popperjs/core": "^2.9.3",
     "awesome-vue-star-rating": "^1.0.9",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "bootstrap": "^5.1.0",
     "js-cookie": "^2.2.1",
     "star-rating-web-component": "^1.1.1",
