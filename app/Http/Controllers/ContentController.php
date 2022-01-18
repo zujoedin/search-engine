@@ -46,8 +46,8 @@ class ContentController extends Controller
     public function rate(Request $request)
     {      
         // No need for transaction here since we have only one update and there cant be no table locking          
-        // DB::beginTransaction();
-        // try {
+        DB::beginTransaction();
+        try {
 
             //if the movie has not been rated ever then or it has not been rated by this user, then we need to create the record
             //otherwise we should update the existing record
@@ -65,17 +65,17 @@ class ContentController extends Controller
             // return rating
             return $data;
 
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             // in case the query fails rollback
-            // DB::rollback();
+            DB::rollback();
 
-            // // return error responce
-            // return response()->json([
-            //     'status' => 'error',
-            //     'msg' => $e
-            // ], 422);
-        // }
+            // return error responce
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e
+            ], 422);
+        }
         
     }
 }
