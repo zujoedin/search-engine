@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ContentActor extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'content_id',
+        'actor_id',
+    ];
 }
